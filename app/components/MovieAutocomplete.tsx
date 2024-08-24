@@ -5,6 +5,7 @@ import Autocomplete, {createFilterOptions} from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { fetchSimilarMovies } from '../actions/fetchSimilarMovies';
 import movies from '../../data/titles_and_date_to_TMDB_ID.json';
+import useMovieStore from '../store/useMovieStore';
 
 interface MovieOption {
   label: string;
@@ -16,17 +17,14 @@ const filter = createFilterOptions<MovieOption>({
   stringify: (option) => option.label, // Convert each option to a string for matching
 });
 
-const MovieAutocomplete = () => {
-  const [selectedMovie, setSelectedMovie] = useState<MovieOption | null>(null);
-
+const MovieAutocomplete: React.FC = () => {
+  const setSimilarMovies = useMovieStore((state) => state.setSimilarMovies);
 
   const handleChange = async (_event: any, newValue: MovieOption | null) => {
-    setSelectedMovie(newValue);
-    console.log("newValue:", newValue);
     if (newValue) {
       const similarMovies = await fetchSimilarMovies(newValue.id);
-      console.log('Similar Movies:', similarMovies);
-      // Handle the fetched similar movies as needed
+      console.log('Fetched Similar Movies:', similarMovies);
+      setSimilarMovies(similarMovies); // Update Zustand store
     }
   };
 

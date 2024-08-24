@@ -1,12 +1,17 @@
 "use client";
 
-//import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import React from 'react';
 import MovieAutocomplete from './components/MovieAutocomplete';
+import MovieResults from './components/MovieResults';
 
-export default function Home() {
+const HomePage: React.FC = () => {
   return (
     <div>
+      <h1>Movie Finder</h1>
       <MovieAutocomplete />
+      <MovieResults />
     </div>
   );
-}
+};
+
+export default HomePage;
