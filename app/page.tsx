@@ -1,20 +1,24 @@
-import React from 'react';
-import AutocompleteComponent from '../components/AutocompleteComponent';
-import movies from '../data/movies.json';
+"use client";
 
-interface PageProps {
-  options: string[];
-}
+import * as React from 'react';
+import TextField from '@mui/material/TextField';
+import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import top10KFilms from '../data/titles_and_date_to_TMDB_ID.json'
 
-// Define the page component as async to fetch data
-const Page = async () => {
-  // Fetch data from the public directory
+const filterOptions = createFilterOptions({
+  matchFrom: 'any',
+  limit: 200,
+});
 
+export default function ComboBox() {
   return (
-    <div style={{ padding: 20 }}>
-      <AutocompleteComponent options={movies} />
-    </div>
+    <Autocomplete
+      disablePortal
+      id="combo-box-demo"
+      options={top10KFilms}
+      sx={{ width: 300 }}
+      renderInput={(params) => <TextField {...params} label="Choose a movie" />}
+      filterOptions={filterOptions}
+    />
   );
-};
-
-export default Page;
+}
