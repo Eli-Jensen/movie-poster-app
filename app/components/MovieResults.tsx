@@ -43,14 +43,18 @@ const MovieResults: React.FC = () => {
                   aria-controls="panel1-content"
                   id="panel1-header"
                 >
-                  <Typography>{movie.title} - {movie.release_date.slice(0, 4)}{<br></br>} Similarity {movie.score.toFixed(3)}</Typography>
+                  <Typography>{movie.title} - {movie.release_date.slice(0, 4)}{<br></br>} {movie.score.toFixed(3)} Similarity</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <Typography>
-                    <p style={{marginBottom: '10px'}}>{movie.overview}</p>
-                    <p style={{marginBottom: '5px'}}>Vote Average: {movie.vote_average}</p>
-                    <p style={{marginBottom: '5px'}}>Release Date: {movie.release_date}</p>
-                  </Typography>
+                  <Typography paragraph style={{marginBottom: '10px'}}>
+                      {movie.overview}
+                    </Typography>
+                    <Typography paragraph style={{marginBottom: '5px'}}>
+                      Vote Average: {movie.vote_average}
+                    </Typography>
+                    <Typography paragraph style={{marginBottom: '5px'}}>
+                      Release Date: {movie.release_date}
+                    </Typography>
                 </AccordionDetails>
               </Accordion>
             </div>

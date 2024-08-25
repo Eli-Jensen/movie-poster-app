@@ -1,8 +1,9 @@
-export async function fetchSimilarMovies(movieId: string) {
-    const response = await fetch(`/api/get-similar-movies?movieId=${movieId}`);
+export async function fetchSimilarMovies(movieId: string, model: string) {
+    // Construct the URL with the correct query parameters
+    const response = await fetch(`/api/get-similar-movies?movieId=${movieId}&model=${model}`);
     const data = await response.json();
 
-    // Extract matches array
+    // Check if the matches array is present and valid
     if (!data.matches || !Array.isArray(data.matches)) {
         console.error('Expected matches array but got:', data);
         return [];

@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
-import Autocomplete, {createFilterOptions} from '@mui/material/Autocomplete';
+import React from 'react';
+import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { fetchSimilarMovies } from '../actions/fetchSimilarMovies';
 import movies from '../../data/titles_and_date_to_TMDB_ID.json';
 import useMovieStore from '../store/useMovieStore';
+import useModelStore from '../store/useModelStore';
 
 interface MovieOption {
   label: string;
@@ -19,10 +20,11 @@ const filter = createFilterOptions<MovieOption>({
 
 const MovieAutocomplete: React.FC = () => {
   const setSimilarMovies = useMovieStore((state) => state.setSimilarMovies);
+  const selectedModel = useModelStore((state) => state.selectedModel);
 
   const handleChange = async (_event: any, newValue: MovieOption | null) => {
-    if (newValue) {
-      const similarMovies = await fetchSimilarMovies(newValue.id);
+    if (newValue && selectedModel) {
+      const similarMovies = await fetchSimilarMovies(newValue.id, selectedModel.name);
       console.log('Fetched Similar Movies:', similarMovies);
       setSimilarMovies(similarMovies); // Update Zustand store
     }
@@ -37,7 +39,7 @@ const MovieAutocomplete: React.FC = () => {
       }}
       getOptionLabel={(option) => option.label}
       onChange={handleChange}
-      renderInput={(params) => <TextField {...params} label="Select a movie" />}
+      renderInput={(params) => <TextField {...params} label="Search for a movie" />}
       sx={{ width: '400px' }}
     />
   );
