@@ -13,7 +13,7 @@ const MovieResults: React.FC = () => {
 
   return (
     <div>
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
         {similarMovies.map((movie) => (
           <div key={movie.id} 
           style={{

@@ -6,10 +6,12 @@ import MovieResults from './components/MovieResults';
 
 const HomePage: React.FC = () => {
   return (
-    <div>
-      <h1 className='m-4 text-3xl font-bold'>Similar Movie Posters</h1>
-      <div className = 'm-4'>
-        <MovieAutocomplete />
+    <div className='flex flex-col'>
+      <div className='flex flex-col justify-center'>
+        <h1 className='m-4 text-3xl font-bold'>Similar Movie Posters</h1>
+        <div className = 'm-4'>
+          <MovieAutocomplete />
+        </div>
       </div>
       <div className = 'm-2'>
         <MovieResults />
