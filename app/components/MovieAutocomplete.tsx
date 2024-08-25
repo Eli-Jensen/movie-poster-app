@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { fetchSimilarMovies } from '../actions/fetchSimilarMovies';
@@ -20,15 +20,25 @@ const filter = createFilterOptions<MovieOption>({
 
 const MovieAutocomplete: React.FC = () => {
   const setSimilarMovies = useMovieStore((state) => state.setSimilarMovies);
-  const selectedModel = useModelStore((state) => state.selectedModel);
+  const selectedModel = useModelStore((state) => state.selectedModel.name); // Get the selected model name
+
+  const [movie, setMovie] = useState<MovieOption | null>(null);
 
   const handleChange = async (_event: any, newValue: MovieOption | null) => {
-    if (newValue && selectedModel) {
-      const similarMovies = await fetchSimilarMovies(newValue.id, selectedModel.name);
-      console.log('Fetched Similar Movies:', similarMovies);
-      setSimilarMovies(similarMovies); // Update Zustand store
-    }
+    setMovie(newValue);
   };
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      if (movie && selectedModel) {
+        const similarMovies = await fetchSimilarMovies(movie.id, selectedModel);
+        console.log('Fetched Similar Movies:', similarMovies);
+        setSimilarMovies(similarMovies); // Update Zustand store
+      }
+    };
+
+    fetchMovies();
+  }, [movie, selectedModel, setSimilarMovies]); // Re-run the effect when movie, selectedModel, or setSimilarMovies changes
 
   return (
     <Autocomplete

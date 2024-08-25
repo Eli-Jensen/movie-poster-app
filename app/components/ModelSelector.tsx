@@ -1,42 +1,36 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-import NativeSelect from '@mui/material/NativeSelect';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
 import useModelStore from '../store/useModelStore';
 
 export default function ModelSelector() {
   const { models, selectedModel, setSelectedModel } = useModelStore();
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedName = event.target.value;
-    const model = models.find((m) => m.name === selectedName);
+  // Sort models alphabetically
+  const sortedModels = [...models].sort((a, b) => a.name.localeCompare(b.name));
+
+  const handleChipClick = (modelName: string) => {
+    const model = sortedModels.find((m) => m.name === modelName);
     if (model) {
       setSelectedModel(model);
     }
   };
 
   return (
-    <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth>
-        <InputLabel variant="standard" htmlFor="model-select">
-          Model Type
-        </InputLabel>
-        <NativeSelect
-          value={selectedModel.name} // Set the selected value from Zustand
-          onChange={handleChange} // Update Zustand when a selection is made
-          inputProps={{
-            name: 'model',
-            id: 'model-select',
-          }}
-        >
-          {models.map((model) => (
-            <option key={model.name} value={model.name}>
-              {model.name}
-            </option>
-          ))}
-        </NativeSelect>
-      </FormControl>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Stack direction="row" spacing={2}>
+        {sortedModels.map((model) => (
+          <Chip
+            key={model.name}
+            label={model.name}
+            clickable
+            color={model.name === selectedModel.name ? 'primary' : 'default'}
+            onClick={() => handleChipClick(model.name)}
+            variant={model.name === selectedModel.name ? 'filled' : 'outlined'}
+          />
+        ))}
+      </Stack>
     </Box>
   );
 }
