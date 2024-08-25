@@ -13,7 +13,6 @@ const MovieResults: React.FC = () => {
 
   return (
     <div>
-      <h2>Similar Movies</h2>
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         {similarMovies.map((movie) => (
           <div key={movie.id} 
@@ -33,7 +32,7 @@ const MovieResults: React.FC = () => {
             <div style={{ padding: '10px' }}>
               <h3 style={{ margin: '0 0 5px' }}>{movie.title}</h3>
               <p style={{ margin: '0' }}>{movie.release_date}</p>
-              <p style={{ margin: '10px 0', fontFamily: 'Inter' }}>{movie.overview}</p>
+              <p style={{ margin: '10px 0' }}>{movie.overview}</p>
               <p style={{ margin: '0' }}>Rating: {movie.vote_average}</p>
             </div>
           </div>

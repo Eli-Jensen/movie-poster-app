@@ -32,12 +32,13 @@ const MovieAutocomplete: React.FC = () => {
     <Autocomplete
       options={movies}
       filterOptions={(options, params) => {
-        const filtered = filter(options, params); // Apply custom filtering logic
+        const filtered = filter(options, params);
         return filtered;
       }}
       getOptionLabel={(option) => option.label}
       onChange={handleChange}
       renderInput={(params) => <TextField {...params} label="Select a movie" />}
+      sx={{ width: '600px' }}
     />
   );
 };
