@@ -38,7 +38,7 @@ const MovieAutocomplete: React.FC = () => {
       getOptionLabel={(option) => option.label}
       onChange={handleChange}
       renderInput={(params) => <TextField {...params} label="Select a movie" />}
-      sx={{ width: '600px' }}
+      sx={{ width: '400px' }}
     />
   );
 };
