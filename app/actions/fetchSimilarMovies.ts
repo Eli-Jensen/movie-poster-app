@@ -11,11 +11,12 @@ export async function fetchSimilarMovies(movieId: string) {
     // Map the `matches` to an array of Movie objects
     const movies = data.matches.map((match: any) => ({
         id: match.metadata.id,
-        title: match.metadata.original_title,
+        title: match.metadata.title,
         overview: match.metadata.overview,
         poster_path: match.metadata.poster_path,
         release_date: match.metadata.release_date,
         vote_average: match.metadata.vote_average,
+        score: match.score,
     }));
 
     return movies;

@@ -7,6 +7,7 @@ interface Movie {
   poster_path: string;
   release_date: string;
   vote_average: number;
+  score: number;
 }
 
 interface MovieStore {

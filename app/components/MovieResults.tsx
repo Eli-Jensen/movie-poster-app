@@ -1,5 +1,12 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import useMovieStore from '../store/useMovieStore';
+
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Typography from '@mui/material/Typography';
+
 
 const MovieResults: React.FC = () => {
   const { similarMovies } = useMovieStore();
@@ -30,10 +37,22 @@ const MovieResults: React.FC = () => {
               style={{ width: '100%' }}
             />
             <div style={{ padding: '10px' }}>
-              <h3 style={{ margin: '0 0 5px' }}>{movie.title}</h3>
-              <p style={{ margin: '0' }}>{movie.release_date}</p>
-              <p style={{ margin: '10px 0' }}>{movie.overview}</p>
-              <p style={{ margin: '0' }}>Rating: {movie.vote_average}</p>
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1-content"
+                  id="panel1-header"
+                >
+                  <Typography>{movie.title} - {movie.release_date.slice(0, 4)}{<br></br>} Similarity {movie.score.toFixed(3)}</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography>
+                    <p style={{marginBottom: '10px'}}>{movie.overview}</p>
+                    <p style={{marginBottom: '5px'}}>Vote Average: {movie.vote_average}</p>
+                    <p style={{marginBottom: '5px'}}>Release Date: {movie.release_date}</p>
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
             </div>
           </div>
         ))}

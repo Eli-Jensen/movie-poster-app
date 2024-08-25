@@ -20,7 +20,7 @@ async function getSimilarMoviesFromPinecone(movieId: string) {
   return await index.namespace('clip-vit-large-patch14').query({
     id: movieId,
     topK: 10,
-    includeValues: false,
+    includeValues: true,
     includeMetadata: true
     });
 }
