@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import CircularProgress from '@mui/material/CircularProgress';
 import { fetchSimilarMovies } from '../actions/fetchSimilarMovies';
 import movies from '../../data/titles_and_date_to_TMDB_ID.json';
 import useMovieStore from '../store/useMovieStore';
@@ -19,7 +20,12 @@ const filter = createFilterOptions<MovieOption>({
 });
 
 const MovieAutocomplete: React.FC = () => {
-  const setSimilarMovies = useMovieStore((state) => state.setSimilarMovies);
+  const { setSimilarMovies, setLoading, loading } = useMovieStore((state) => ({
+    setSimilarMovies: state.setSimilarMovies,
+    setLoading: state.setLoading,
+    loading: state.loading,
+  }));
+
   const selectedModel = useModelStore((state) => state.selectedModel.name); // Get the selected model name
 
   const [movie, setMovie] = useState<MovieOption | null>(null);
@@ -31,14 +37,15 @@ const MovieAutocomplete: React.FC = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       if (movie && selectedModel) {
+        setLoading(true); // Set loading to true
         const similarMovies = await fetchSimilarMovies(movie.id, selectedModel);
-        console.log('Fetched Similar Movies:', similarMovies);
         setSimilarMovies(similarMovies); // Update Zustand store
+        setLoading(false); // Set loading to false
       }
     };
 
     fetchMovies();
-  }, [movie, selectedModel, setSimilarMovies]); // Re-run the effect when movie, selectedModel, or setSimilarMovies changes
+  }, [movie, selectedModel, setSimilarMovies, setLoading]);  // Re-run the effect when movie, selectedModel, or setSimilarMovies changes
 
   return (
     <Autocomplete
@@ -49,7 +56,21 @@ const MovieAutocomplete: React.FC = () => {
       }}
       getOptionLabel={(option) => option.label}
       onChange={handleChange}
-      renderInput={(params) => <TextField {...params} label="Search for a movie" />}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label="Search for a movie"
+          InputProps={{
+            ...params.InputProps,
+            endAdornment: (
+              <>
+                {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                {params.InputProps.endAdornment}
+              </>
+            ),
+          }}
+        />
+      )}
       sx={{ width: '400px' }}
     />
   );
