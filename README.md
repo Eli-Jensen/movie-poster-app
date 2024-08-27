@@ -14,6 +14,4 @@ Allows the user to compare the movie poster image embedding results of three dif
 * [Tailwind CSS](https://tailwindcss.com/) for styling/layout
 * [Zustand](https://github.com/pmndrs/zustand) for state management
 
-
-
 https://github.com/Eli-Jensen/movie-poster-model shows how Pinecone indices were created/populated
