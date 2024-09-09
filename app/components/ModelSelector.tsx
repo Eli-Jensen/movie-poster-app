@@ -39,7 +39,7 @@ export default function ModelSelector() {
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <Stack direction="row" spacing={2}>
+      <Stack direction="row" spacing={2} alignItems="center">
         {sortedModels.map((model) => (
           <Chip
             key={model.name}
@@ -50,7 +50,11 @@ export default function ModelSelector() {
             variant={model.name === selectedModel.name ? 'filled' : 'outlined'}
           />
         ))}
-        <IconButton onClick={handleOpen} aria-label="help">
+        <IconButton 
+          onClick={handleOpen} 
+          aria-label="help"
+          sx={{ marginBottom: '-5px' }} // Slightly raise the question mark
+        >
           <HelpOutlineIcon />
         </IconButton>
       </Stack>
@@ -59,10 +63,13 @@ export default function ModelSelector() {
       <Modal open={open} onClose={handleClose} aria-labelledby="modal-title" aria-describedby="modal-description">
         <Box sx={style}>
           <Typography id="modal-title" variant="h6" component="h2">
-            Model Comparison
+            Instructions
           </Typography>
           <Typography id="modal-description" sx={{ mt: 2 }}>
-            <strong>CLIP</strong> (Contrastive Language–Image Pretraining). It will group movie posters based not only on visual appearance (colors, shapes, etc.), but also on thematic content. Groupings may include posters which do not have obvious visual similarities, but do have similar genres or storylines.
+            Select a movie using the dropdown (you can type any substring of the movie title or its release date) and select one of the models (CLIP, ResNet-50, VGG-16). 
+            <br />
+            <br />
+            <strong>CLIP</strong> (Contrastive Language–Image Pretraining) uses transformers and groups images based not only on visual appearance (colors, shapes, etc.), but also on thematic content. Groupings may have similar genres or objects while not having strong visual similarities.
 
             <br />
             <br />
@@ -70,7 +77,7 @@ export default function ModelSelector() {
 
             <br />
             <br />
-            <strong>VGG-16</strong> is a simple deep CNN. VGG-16 groups images that are visually similar in terms of textures, color palettes, patterns, and basic object forms (like human figures), but the model may miss the more abstract or thematic groupings that models like CLIP pick up on.
+            <strong>VGG-16</strong> is a simple deep CNN. VGG-16 groups images that are visually similar in terms of textures, color palettes, patterns, and basic object forms, but the model may miss the more abstract or thematic groupings that models like CLIP pick up on.
           </Typography>
         </Box>
       </Modal>

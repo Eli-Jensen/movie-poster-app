@@ -9,17 +9,17 @@ const HomePage: React.FC = () => {
   return (
     <div className="flex flex-col items-center pt-8"> {/* Padding at the top */}
       <h1 className="m-4 text-3xl font-bold">Similar Movie Posters</h1>
-      
-      {/* Flexbox container for MovieAutocomplete and ModelSelector */}
-      <div className="flex flex-col md:flex-row md:justify-center items-center w-full">
-        {/* MovieAutocomplete */}
-        <div className="w-full md:w-[40vw] lg:w-[30vw] flex justify-center"> 
-          <MovieAutocomplete />
+
+      {/* Flexbox container for ModelSelector and MovieAutocomplete */}
+      <div className="flex flex-col items-center w-full">
+        {/* ModelSelector (always on top and centered) */}
+        <div className="w-full md:w-auto mb-4 flex justify-center">
+          <ModelSelector />
         </div>
 
-        {/* ModelSelector */}
-        <div className="w-full md:w-auto mt-4 md:mt-0 flex justify-center">
-          <ModelSelector />
+        {/* MovieAutocomplete (always below ModelSelector and centered) */}
+        <div className="w-full md:w-[60vw] lg:w-[50vw] xl:w-[40vw] flex justify-center"> 
+          <MovieAutocomplete />
         </div>
       </div>
 
