@@ -8,6 +8,7 @@ import { fetchSimilarMovies } from '../actions/fetchSimilarMovies';
 import movies from '../../data/titles_and_date_to_TMDB_ID.json';
 import useMovieStore from '../store/useMovieStore';
 import useModelStore from '../store/useModelStore';
+import { useTheme } from '@mui/material/styles'; // Import MUI theme for breakpoints
 
 interface MovieOption {
   label: string;
@@ -20,6 +21,8 @@ const filter = createFilterOptions<MovieOption>({
 });
 
 const MovieAutocomplete: React.FC = () => {
+  const theme = useTheme(); // Hook to get access to theme and breakpoints
+
   const { setSimilarMovies, setLoading, loading } = useMovieStore((state) => ({
     setSimilarMovies: state.setSimilarMovies,
     setLoading: state.setLoading,
@@ -71,7 +74,12 @@ const MovieAutocomplete: React.FC = () => {
           }}
         />
       )}
-      sx={{ width: '400px' }}
+      sx={{
+        width: '100vw', // Full width for small screens
+        [theme.breakpoints.up('md')]: {
+          width: '20vw', // 20vw for medium and larger screens
+        },
+      }}
     />
   );
 };
