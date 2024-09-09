@@ -11,12 +11,19 @@ import CircularProgress from '@mui/material/CircularProgress';
 const MovieResults: React.FC = () => {
   const { similarMovies, loading } = useMovieStore();
   const [hasSearched, setHasSearched] = useState(false);
+  const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
     if (similarMovies.length > 0 || hasSearched) {
       setHasSearched(true);
     }
-  }, [similarMovies]);
+
+    if (loading) {
+      setFadeOut(true);  // Start fading out the old content
+    } else {
+      setFadeOut(false); // Fade in new content once loading is complete
+    }
+  }, [similarMovies, loading]);
 
   if (!Array.isArray(similarMovies)) {
     console.error('similarMovies is not an array:', similarMovies);
@@ -26,7 +33,17 @@ const MovieResults: React.FC = () => {
   return (
     <div>
       {loading ? (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        // Fade the current content out but keep it visible until new content is ready
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '100vh',
+            opacity: fadeOut ? 0.5 : 1,
+            transition: 'opacity 0.5s ease-in-out',
+          }}
+        >
           <CircularProgress />
         </div>
       ) : (
@@ -36,7 +53,15 @@ const MovieResults: React.FC = () => {
               No results for that combination of movie and model.
             </Typography>
           ) : (
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+                opacity: fadeOut ? 0 : 1, // Fade in the new content
+                transition: 'opacity 0.5s ease-in-out', // Smooth transition
+              }}
+            >
               {similarMovies.map((movie) => (
                 <div
                   key={movie.id}
