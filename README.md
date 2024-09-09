@@ -9,7 +9,7 @@ Allows the user to compare the movie poster image embedding results of three dif
 ## Technologies used
 
 * [Next.js 14](https://nextjs.org/) with TypeScript
-* [Pinecone](https://www.pinecone.io/) vector database (using fetch to query the db)
+* [Pinecone](https://www.pinecone.io/) vector database
 * [Material UI](https://mui.com/) component library
 * [Tailwind CSS](https://tailwindcss.com/) for styling/layout
 * [Zustand](https://github.com/pmndrs/zustand) for state management
