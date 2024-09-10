@@ -5,24 +5,21 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Typography from '@mui/material/Typography';
-import CircularProgress from '@mui/material/CircularProgress';
 import Skeleton from '@mui/material/Skeleton';
 import Box from '@mui/material/Box';
 
 const MovieResults: React.FC = () => {
   const { similarMovies, loading } = useMovieStore();
   const [hasSearched, setHasSearched] = useState(false);
-  const [fadeOut, setFadeOut] = useState(false);
+  const [oldContent, setOldContent] = useState(similarMovies); // Keep the old content visible until new content is ready
 
   useEffect(() => {
     if (similarMovies.length > 0 || hasSearched) {
       setHasSearched(true);
     }
 
-    if (loading) {
-      setFadeOut(true); // Start fading out the old content
-    } else {
-      setFadeOut(false); // Fade in new content once loading is complete
+    if (!loading) {
+      setOldContent(similarMovies); // Once new content is ready, instantly replace the old content
     }
   }, [similarMovies, loading]);
 
@@ -31,15 +28,15 @@ const MovieResults: React.FC = () => {
     return <div>Error loading movies.</div>;
   }
 
-  // Render 10 skeletons that match the size of the loaded content
+  // Render 10 skeletons that match the size and layout of the loaded content
   const renderSkeletons = () => (
     <Box
       sx={{
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'center',
-        gap: 2,
-        padding: 2,
+        gap: '20px',
+        padding: '20px',
       }}
     >
       {Array.from(new Array(10)).map((_, index) => (
@@ -54,10 +51,10 @@ const MovieResults: React.FC = () => {
           }}
         >
           <Skeleton variant="rectangular" width="100%" height={600} />
-          <Box sx={{ padding: 2 }}>
+          <Box sx={{ padding: '10px' }}>
             <Skeleton variant="text" width="80%" height={32} />
             <Skeleton variant="text" width="60%" height={24} />
-            <Skeleton variant="rectangular" width="100%" height={50} sx={{ marginTop: 2 }} />
+            <Skeleton variant="rectangular" width="100%" height={50} sx={{ marginTop: '10px' }} />
           </Box>
         </Box>
       ))}
@@ -73,15 +70,13 @@ const MovieResults: React.FC = () => {
             justifyContent: 'center',
             alignItems: 'center',
             minHeight: '100vh',
-            opacity: fadeOut ? 0.5 : 1,
-            transition: 'opacity 0.5s ease-in-out',
           }}
         >
           {renderSkeletons()}
         </div>
       ) : (
         <>
-          {hasSearched && similarMovies.length === 0 ? (
+          {hasSearched && oldContent.length === 0 ? (
             <Typography variant="h6" align="center" color="textSecondary" style={{ marginTop: '20px' }}>
               No results for that combination of movie and model.
             </Typography>
@@ -91,10 +86,10 @@ const MovieResults: React.FC = () => {
                 display: 'flex',
                 flexWrap: 'wrap',
                 justifyContent: 'center',
-                opacity: fadeOut ? 0 : 1, // Fade in the new content
-                transition: 'opacity 0.5s ease-in-out', // Smooth transition
+                gap: '20px', // Add spacing between items
               }}
             >
+              {/* New content (immediately replaces the old content once ready) */}
               {similarMovies.map((movie) => (
                 <div
                   key={movie.id}
