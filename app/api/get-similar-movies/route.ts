@@ -19,7 +19,12 @@ const modelMappings: Record<ModelType, { indexName: string; namespace: string }>
   },
 };
 
+// Initialize Pinecone client
 const pc = new Pinecone({ apiKey: process.env.PINECONE_API_KEY! });
+
+// Create a global in-memory cache using a Map
+const cache = new Map<string, { data: any; expiry: number }>();
+const CACHE_TTL = 600000; // Cache Time-to-Live (TTL) in milliseconds (10 minutes)
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -31,10 +36,30 @@ export async function GET(request: Request) {
   }
 
   const { indexName, namespace } = modelMappings[modelType];
+  const cacheKey = `${movieId}-${modelType}`; // Unique cache key for each movieId and model
+
+  // Check if the result is in the cache and still valid
+  const cachedResult = cache.get(cacheKey);
+  const now = Date.now();
+
+  if (cachedResult && cachedResult.expiry > now) {
+    // Return cached result if it exists and hasn't expired
+    return NextResponse.json(cachedResult.data);
+  }
+
+  // Query Pinecone if not in cache or cache has expired
   const index = pc.index(indexName);
 
-  const similarMovies = await getSimilarMoviesFromPinecone(index, namespace, movieId);
-  return NextResponse.json(similarMovies);
+  try {
+    const similarMovies = await getSimilarMoviesFromPinecone(index, namespace, movieId);
+
+    // Store the result in cache with an expiry timestamp
+    cache.set(cacheKey, { data: similarMovies, expiry: now + CACHE_TTL });
+
+    return NextResponse.json(similarMovies);
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to retrieve similar movies' }, { status: 500 });
+  }
 }
 
 async function getSimilarMoviesFromPinecone(index: any, namespace: string, movieId: string) {
@@ -42,6 +67,6 @@ async function getSimilarMoviesFromPinecone(index: any, namespace: string, movie
     id: movieId,
     topK: 10,
     includeValues: true,
-    includeMetadata: true
+    includeMetadata: true,
   });
 }

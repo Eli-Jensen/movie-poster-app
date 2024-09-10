@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import useMovieStore from '../store/useMovieStore';
-
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
+import Skeleton from '@mui/material/Skeleton';
+import Box from '@mui/material/Box';
 
 const MovieResults: React.FC = () => {
   const { similarMovies, loading } = useMovieStore();
@@ -19,7 +20,7 @@ const MovieResults: React.FC = () => {
     }
 
     if (loading) {
-      setFadeOut(true);  // Start fading out the old content
+      setFadeOut(true); // Start fading out the old content
     } else {
       setFadeOut(false); // Fade in new content once loading is complete
     }
@@ -30,10 +31,42 @@ const MovieResults: React.FC = () => {
     return <div>Error loading movies.</div>;
   }
 
+  // Render 10 skeletons that match the size of the loaded content
+  const renderSkeletons = () => (
+    <Box
+      sx={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        gap: 2,
+        padding: 2,
+      }}
+    >
+      {Array.from(new Array(10)).map((_, index) => (
+        <Box
+          key={index}
+          sx={{
+            width: '400px',
+            border: '2px solid #ccc',
+            borderRadius: '12px',
+            overflow: 'hidden',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+          }}
+        >
+          <Skeleton variant="rectangular" width="100%" height={600} />
+          <Box sx={{ padding: 2 }}>
+            <Skeleton variant="text" width="80%" height={32} />
+            <Skeleton variant="text" width="60%" height={24} />
+            <Skeleton variant="rectangular" width="100%" height={50} sx={{ marginTop: 2 }} />
+          </Box>
+        </Box>
+      ))}
+    </Box>
+  );
+
   return (
     <div>
       {loading ? (
-        // Fade the current content out but keep it visible until new content is ready
         <div
           style={{
             display: 'flex',
@@ -44,7 +77,7 @@ const MovieResults: React.FC = () => {
             transition: 'opacity 0.5s ease-in-out',
           }}
         >
-          <CircularProgress />
+          {renderSkeletons()}
         </div>
       ) : (
         <>
@@ -77,7 +110,7 @@ const MovieResults: React.FC = () => {
                   <img
                     src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                     alt={movie.title}
-                    style={{ width: '100%' }}
+                    style={{ width: '100%', height: '600px', objectFit: 'cover' }} // Match the skeleton height
                   />
                   <div style={{ padding: '10px' }}>
                     <Accordion>
