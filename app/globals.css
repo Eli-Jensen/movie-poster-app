@@ -13,3 +13,10 @@
     text-wrap: balance;
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #121212;
+    --text-color: #ffffff;
+  }
+}

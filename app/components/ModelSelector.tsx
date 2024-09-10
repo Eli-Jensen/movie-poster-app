@@ -62,9 +62,6 @@ export default function ModelSelector() {
       {/* Modal */}
       <Modal open={open} onClose={handleClose} aria-labelledby="modal-title" aria-describedby="modal-description">
         <Box sx={style}>
-          <Typography id="modal-title" variant="h6" component="h2">
-            Instructions
-          </Typography>
           <Typography id="modal-description" sx={{ mt: 2 }}>
             Select a movie using the dropdown (you can type any substring of the movie title or its release date) and select one of the models (CLIP, ResNet-50, VGG-16). 
             <br />

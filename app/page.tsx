@@ -7,8 +7,8 @@ import ModelSelector from './components/ModelSelector';
 
 const HomePage: React.FC = () => {
   return (
-    <div className="flex flex-col items-center pt-8"> {/* Padding at the top */}
-      <h1 className="m-4 text-3xl font-bold">Similar Movie Posters</h1>
+    <div className="flex flex-col items-center"> {/* Padding at the top */}
+      <h1 className="m-4 text-2xl font-bold">Similar Movie Posters</h1>
 
       {/* Flexbox container for ModelSelector and MovieAutocomplete */}
       <div className="flex flex-col items-center w-full">

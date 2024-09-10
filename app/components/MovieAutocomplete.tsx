@@ -77,7 +77,7 @@ const MovieAutocomplete: React.FC = () => {
       sx={{
         width: '100vw', // Full width for small screens
         [theme.breakpoints.up('md')]: {
-          width: '20vw', // 20vw for medium and larger screens
+          width: '25vw', // 20vw for medium and larger screens
         },
       }}
     />
