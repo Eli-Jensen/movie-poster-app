@@ -6,6 +6,9 @@ Shows similar movie posters for popular movies (sourced from [TMDB](https://deve
 
 Allows the user to compare the movie poster image embedding results of three different models ([CLIP](https://huggingface.co/openai/clip-vit-base-patch32), [ResNet-50](https://huggingface.co/microsoft/resnet-50), [VGG16](https://huggingface.co/timm/vgg16.tv_in1k)).
 
+## Demo
+![Demo of website](https://github.com/Eli-Jensen/movie-poster-app/blob/main/public/movie_site_demo.gif)
+
 ## Technologies used
 
 * [Next.js 14](https://nextjs.org/) with TypeScript
