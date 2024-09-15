@@ -29,7 +29,7 @@ const CACHE_TTL = 600000; // Cache Time-to-Live (TTL) in milliseconds (10 minute
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const movieId = searchParams.get('movieId');
-  const modelType = searchParams.get('model') as ModelType; // Type assertion
+  const modelType = searchParams.get('model') as ModelType;
 
   if (!movieId || !modelType || !modelMappings[modelType]) {
     return NextResponse.json({ error: 'Movie ID and valid model type are required' }, { status: 400 });

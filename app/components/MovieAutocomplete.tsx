@@ -8,7 +8,7 @@ import { fetchSimilarMovies } from '../actions/fetchSimilarMovies';
 import movies from '../../data/titles_and_date_to_TMDB_ID.json';
 import useMovieStore from '../store/useMovieStore';
 import useModelStore from '../store/useModelStore';
-import { useTheme } from '@mui/material/styles'; // Import MUI theme for breakpoints
+import { useTheme } from '@mui/material/styles';
 
 interface MovieOption {
   label: string;
@@ -21,7 +21,7 @@ const filter = createFilterOptions<MovieOption>({
 });
 
 const MovieAutocomplete: React.FC = () => {
-  const theme = useTheme(); // Hook to get access to theme and breakpoints
+  const theme = useTheme();
 
   const { setSimilarMovies, setLoading, loading } = useMovieStore((state) => ({
     setSimilarMovies: state.setSimilarMovies,
@@ -29,7 +29,7 @@ const MovieAutocomplete: React.FC = () => {
     loading: state.loading,
   }));
 
-  const selectedModel = useModelStore((state) => state.selectedModel.name); // Get the selected model name
+  const selectedModel = useModelStore((state) => state.selectedModel.name);
 
   const [movie, setMovie] = useState<MovieOption | null>(null);
 
@@ -40,10 +40,10 @@ const MovieAutocomplete: React.FC = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       if (movie && selectedModel) {
-        setLoading(true); // Set loading to true
+        setLoading(true);
         const similarMovies = await fetchSimilarMovies(movie.id, selectedModel);
         setSimilarMovies(similarMovies); // Update Zustand store
-        setLoading(false); // Set loading to false
+        setLoading(false);
       }
     };
 

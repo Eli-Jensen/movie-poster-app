@@ -16,7 +16,7 @@ const useModelStore = create<ModelStore>((set) => ({
     { name: 'ResNet-50' },
     { name: 'CLIP' },
   ],
-  selectedModel: { name: 'CLIP' }, // Default to CLIP
+  selectedModel: { name: 'ResNet-50' }, // Update default to ResNet-50
   setSelectedModel: (model) => set({ selectedModel: model }),
 }));
 
